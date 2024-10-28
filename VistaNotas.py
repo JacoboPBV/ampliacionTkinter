@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 class VistaNotas:
     def __init__(self, root):
         self.root = root
@@ -9,7 +8,7 @@ class VistaNotas:
         self.etiqueta = tk.Label(root, text="NoteAPP Agenda\t\tX: 0 | Y: 0")
         self.etiqueta.pack()
 
-        self.listbox = tk.Listbox(root, selectmode=tk.SINGLE)
+        self.listbox = tk.Listbox(root, selectmode=tk.MULTIPLE)
         self.listbox.pack()
 
         self.entrada = tk.Entry(root)
@@ -26,5 +25,5 @@ class VistaNotas:
         self.imagenButton = tk.Button(root, text="Descargar imagen")
         self.imagenButton.pack()
 
-        self.etiqueta = tk.Label(root, text="Imagen GitHub")
-        self.etiqueta.pack()
+        self.imagenLabel = tk.Label(root, text="Imagen GitHub")
+        self.imagenLabel.pack()
