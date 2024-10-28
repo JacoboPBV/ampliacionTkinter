@@ -9,7 +9,8 @@ class VistaNotas:
         self.etiqueta = tk.Label(root, text="NoteAPP Agenda\t\tX: 0 | Y: 0")
         self.etiqueta.pack()
 
-        self.listbox = tk.Listbox(root, selectmode=tk.MULTIPLE)
+        self.listbox = tk.Listbox(root, selectmode=tk.SINGLE)
+        self.listbox.pack()
 
         self.entrada = tk.Entry(root)
         self.entrada.pack()
@@ -18,8 +19,6 @@ class VistaNotas:
         self.agregarButton.pack()
         self.eliminarButton = tk.Button(root, text="Eliminar nota")
         self.eliminarButton.pack()
-        self.obtenerButton = tk.Button(root, text="Obtener notas")
-        self.obtenerButton.pack()
         self.guardarButton = tk.Button(root, text="Guardar notas")
         self.guardarButton.pack()
         self.cargarButton = tk.Button(root, text="Cargar notas")
@@ -29,7 +28,3 @@ class VistaNotas:
 
         self.etiqueta = tk.Label(root, text="Imagen GitHub")
         self.etiqueta.pack()
-
-    def actualizar_etiqueta(self, texto):
-        self.etiqueta.config(text=texto)
-
