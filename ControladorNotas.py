@@ -2,6 +2,8 @@ import threading
 import tkinter as tk
 from io import BytesIO
 
+from pybuilder.core import after
+
 from NotasMode1 import NotasMode1
 from VistaNotas import VistaNotas
 from PIL import Image, ImageTk
@@ -37,7 +39,7 @@ class ControladorNotas:
     def cargar_notas(self):
         self.actualizar_listbox(self.modelo.cargar_notas())
 
-    def iniciar_descarga(self, url):
+    def iniciar_descarga(self, url, callback):
         try:
             respuesta = requests.get(url)
             respuesta.raise_for_status()
@@ -45,15 +47,22 @@ class ControladorNotas:
             imagen_tk = ImageTk.PhotoImage(imagen)
 
             self.vista.imagenLabel.config(image=imagen_tk)
-            self.vista.imagenLabel.image = imagen_tk
+            self.vista.root.after(0, callback, imagen_tk)
         except requests.exceptions.RequestException as e:
             print(f"Error al descargar la imagen: {e}")
-            self.vista.imagenLabel.config(text="Error al descargar la imagen.")
+            self.vista.root.after(0, callback, None)
 
+    def actualizar_etiqueta(self, imagen_tk):
+        if imagen_tk:
+            self.vista.imagenLabel.config(image=imagen_tk)
+            self.vista.imagenLabel.image = imagen_tk  # Mantener una referencia
+        else:
+            self.vista.imagenLabel.config(text="Error al descargar la imagen.")
     def descargar_imagen(self):
-        url = "https://github.com/JacoboPBV/notesApp/blob/main/fotoEjemplo.jpg"
-        hilo = threading.Thread(target=self.iniciar_descarga, args=(self, url))
+        url = "https://raw.githubusercontent.com/JacoboPBV/notesApp/refs/heads/main/fotoEjemplo.jpg"
+        hilo = threading.Thread(target=self.iniciar_descarga, args=(url, self.actualizar_etiqueta))
         hilo.start()
+
 
     def actualizar_coordenadas(self, event):
         self.vista.etiqueta.config(text=f"NoteAPP Agenda\t\tX: {event.x} | Y: {event.y}")
